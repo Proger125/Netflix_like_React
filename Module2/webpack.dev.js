@@ -7,4 +7,6 @@ module.exports = merge(common, {
   devServer: {
     static: './dist',
   },
+
+
 });
