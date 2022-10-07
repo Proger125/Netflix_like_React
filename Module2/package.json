@@ -41,6 +41,7 @@
         "prepare": "cd .. && husky install Module2/.husky"
     },
     "lint-staged": {
-        "*.js": "eslint"
+        "src/*.js": "eslint",
+        "src/*.jsx": "eslint"
     }
 }
