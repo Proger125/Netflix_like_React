@@ -4,6 +4,7 @@
     "private": true,
     "dependencies": {
         "babel": "^6.23.0",
+        "css-minimizer-webpack-plugin": "^4.2.1",
         "html-loader": "^4.2.0",
         "html-webpack-plugin": "^5.5.0",
         "react": "^18.2.0",
@@ -33,10 +34,10 @@
     },
     "scripts": {
         "test": "lint-staged",
-        "start-prod": "webpack serve --open --config webpack.prod.js",
-        "start-dev": "webpack serve --open --config webpack.dev.js",
-        "build-prod": "webpack --config webpack.prod.js",
-        "build-dev": "webpack --config webpack.dev.js",
+        "start-prod": "set NODE_ENV=production&&webpack serve --open --config webpack.config.js",
+        "start-dev": "set NODE_ENV=development&&webpack serve --open --config webpack.config.js",
+        "build-prod": "set NODE_ENV=production&&webpack --config webpack.config.js",
+        "build-dev": "set NODE_ENV=development&&webpack --config webpack.config.js",
         "prepare": "cd .. && husky install Module2/.husky"
     },
     "lint-staged": {

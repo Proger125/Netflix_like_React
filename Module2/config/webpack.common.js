@@ -13,24 +13,24 @@ module.exports = {
   ],
   output: {
     filename: '[name].bundle.js',
-    path: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, '../dist'),
     clean: true,
   },
   devServer: {
     static: {
-      directory: path.join(__dirname, 'dist'),
+      directory: path.join(__dirname, '../dist'),
     },
   },
   module: {
     rules: [
       {
         test: /\.html$/i,
-        include: path.resolve(__dirname, 'public'),
+        include: path.resolve(__dirname, '../public'),
         loader: 'html-loader',
       },
       {
         test: /\.(js|jsx)$/,
-        include: path.resolve(__dirname, 'src'),
+        include: path.resolve(__dirname, '../src'),
         exclude: /(node_modules)/, 
         loader: 'babel-loader',
         options: {
