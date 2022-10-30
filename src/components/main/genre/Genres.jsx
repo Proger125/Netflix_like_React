@@ -1,16 +1,38 @@
-import React from "react";
-import Genre from "./Genre";
+import React from 'react';
+import Genre from './Genre';
+
+const genres = [
+  {
+    genre: 'ALL',
+    isSelected: true,
+  }, 
+  {
+    genre: 'DOCUMENTARY',
+    isSelected: false,
+  }, 
+  {
+    genre: 'COMEDY',
+    isSelected: false,
+  }, 
+  {
+    genre: 'HORROR',
+    isSelected: false,
+  },
+  {  
+    genre: 'CRIME',
+    isSelected: false,
+  },
+];
 
 export default class Genres extends React.Component {
-    render() {
-        return (
-            <div className="genres">
-                <Genre genre={"ALL"} isSelected={true}/>
-                <Genre genre={"DOCUMENTARY"} isSelected={false}/>
-                <Genre genre={"COMEDY"} isSelected={false}/>
-                <Genre genre={"HORROR"} isSelected={false}/>
-                <Genre genre={"CRIME"} isSelected={false}/>
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div className="genres">
+        {genres.map(genre => (
+          <Genre key={genre.genre} 
+            genre={genre.genre} isSelected={genre.isSelected}/>
+        ))}
+      </div>
+    );
+  }
 }
