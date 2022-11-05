@@ -26,19 +26,6 @@ export default function AddOrEditMovieModalContent(props) {
     movieName = movie.name;
     movieReleaseDate = movie.movieCreationDate;
   }
-  let generOptions = null;
-  if (isTogglerUp) {
-    generOptions = (
-      <div className="gener-options">
-        {genres.map((genre) => (
-          <label className="genre-option-label" htmlFor={genre}>
-            <input type="checkbox" id={genre} />
-            {genre.genre}
-          </label>
-        ))}
-      </div>
-    );
-  }
   return (
     <>
       <span className="modal-header">ADD MOVIE</span>
@@ -97,7 +84,16 @@ export default function AddOrEditMovieModalContent(props) {
                 }
               />
             </div>
-            {generOptions}
+            {isTogglerUp && (
+              <div className="gener-options">
+                {genres.map((genre) => (
+                  <label className="genre-option-label" htmlFor={genre}>
+                    <input type="checkbox" id={genre} />
+                    {genre.genre}
+                  </label>
+                ))}
+              </div>
+            )}
           </div>
         </div>
         <div className="modal-form-group with-left-margin">
