@@ -1,3 +1,6 @@
 import React from 'react';
 
-export const SelectedMovieContext = React.createContext();
+const SelectedMovieContext = React.createContext(() =>
+  console.log('You forgot to set up Selected Movie Context'),
+);
+export default SelectedMovieContext;

@@ -1,17 +1,13 @@
-import React from "react";
-import PropTypes from 'prop-types';
-import "../../static/css/footer-styles.css"
+import React from 'react';
+import '../../static/css/footer-styles.css';
 
-export default class Footer extends React.Component {
-    render() {
-        return (
-            <div className="footer">
-                {this.props.children}
-            </div>
-        )
-    }
-}
-
-Footer.propTypes = {
-    children: PropTypes.element.isRequired
+export default function Footer() {
+  return (
+    <div className="footer">
+      <span className="logo-text">
+        <b>netflix</b>
+        roulette
+      </span>
+    </div>
+  );
 }

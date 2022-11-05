@@ -1,53 +1,71 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
-import { ModalContext } from '../../modal/ModalContext';
-import { SelectedMovieContext } from './SelectedMovieContext';
+import ModalContext from '../../modal/ModalContext';
+import SelectedMovieContext from './SelectedMovieContext';
 
-export default class MovieOptions extends React.Component {
-
-  render() {
-    let options;
-    const movie = this.props.movie;
-    if (this.props.isOpened) {
-      options = (
-        <div className="movie-options-opened">
-          <span className="movie-options-close-button" 
-            onClick={() => this.props.setOpened(false)}>&times;</span>
-          <ModalContext.Consumer>
-            {(setModalType) => (
-              <SelectedMovieContext.Consumer>
-                {(setSelectedMovie) => (
-                  <span className="movie-options-option" 
-                    onClick={() => {
-                      setModalType('editMovie');
-                      setSelectedMovie(movie);
-                    }}>Edit</span>
-                )}
-              </SelectedMovieContext.Consumer>
-            )}
-          </ModalContext.Consumer>
-          <ModalContext.Consumer>
-            {(setModalType) => (
-              <span className="movie-options-option" 
-                onClick={() => setModalType('deleteMovie')}>Delete</span>
-            )}
-          </ModalContext.Consumer>
-        </div>
-      );
-    } else {
-      options = (
-        <div className={'movie-options-closed'} 
-          onClick={() => this.props.setOpened(true)}>
-          <div className="movie-options-circle"></div>
-          <div className="movie-options-circle"></div>
-          <div className="movie-options-circle"></div>
-        </div>    
-      );
-    }
-    return (
-      <>
-        {options}
-      </>
+export default function MovieOptions(props) {
+  let options;
+  const { movie, isOpened, setOpened } = props;
+  if (isOpened) {
+    options = (
+      <div className="movie-options-opened">
+        <span
+          className="movie-options-close-button"
+          onClick={() => setOpened(false)}
+          role="button"
+          tabIndex={0}
+          aria-hidden="true"
+        >
+          &times;
+        </span>
+        <ModalContext.Consumer>
+          {(setModalType) => (
+            <SelectedMovieContext.Consumer>
+              {(setSelectedMovie) => (
+                <span
+                  className="movie-options-option"
+                  onClick={() => {
+                    setModalType('editMovie');
+                    setSelectedMovie(movie);
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-hidden="true"
+                >
+                  Edit
+                </span>
+              )}
+            </SelectedMovieContext.Consumer>
+          )}
+        </ModalContext.Consumer>
+        <ModalContext.Consumer>
+          {(setModalType) => (
+            <span
+              className="movie-options-option"
+              onClick={() => setModalType('deleteMovie')}
+              role="button"
+              tabIndex={0}
+              aria-hidden="true"
+            >
+              Delete
+            </span>
+          )}
+        </ModalContext.Consumer>
+      </div>
+    );
+  } else {
+    options = (
+      <div
+        className="movie-options-closed"
+        onClick={() => setOpened(true)}
+        role="button"
+        tabIndex={0}
+        aria-hidden="true"
+      >
+        <div className="movie-options-circle" />
+        <div className="movie-options-circle" />
+        <div className="movie-options-circle" />
+      </div>
     );
   }
+  return options;
 }

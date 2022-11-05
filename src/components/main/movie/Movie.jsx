@@ -1,45 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import MovieOptions from './MovieOptions';
 
-export default class Movie extends React.Component {
-    
-  constructor(props) {
-    super(props);
-    this.state = {isOpened: false};
-    this.setOpened = this.setOpened.bind(this);
-  }
+export default function Movie(props) {
+  const [isOpened, setIsOpened] = useState(false);
 
-  setOpened(value) {
-    this.setState({isOpened: value});
-  }
-
-  render() {
-    const movie = this.props.movie;
-    return (
-      <div className="movie" onMouseLeave={() => this.setOpened(false)}>
-        <div className="movie-icon">
-          <img src={`img/${movie.img}`} 
-            alt="Movie image" />
-        </div>
-        <span className="movie-name">{movie.name}</span>
-        <span className="movie-creation-date">
-          {movie.movieCreationDate.substring(0, 4)}</span>
-        <br />
-        <span className="movie-genres">{movie.movieGenres}</span>
-        <MovieOptions isOpened={this.state.isOpened}
-          setOpened={this.setOpened} movie={movie}/>
+  const { movie } = props;
+  return (
+    <div className="movie" onMouseLeave={() => setIsOpened(false)}>
+      <div className="movie-icon">
+        <img src={`img/${movie.img}`} alt="" />
       </div>
-    );
-  }
+      <span className="movie-name">{movie.name}</span>
+      <span className="movie-creation-date">
+        {movie.movieCreationDate.substring(0, 4)}
+      </span>
+      <br />
+      <span className="movie-genres">{movie.movieGenres}</span>
+      <MovieOptions isOpened={isOpened} setOpened={setIsOpened} movie={movie} />
+    </div>
+  );
 }
 Movie.propTypes = {
-  img: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  movieCreationDate: PropTypes.string.isRequired,
-  movieGenres: PropTypes.string,
+  movie: PropTypes.shape({
+    img: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    movieCreationDate: PropTypes.string.isRequired,
+    movieGenres: PropTypes.string,
+  }),
 };
 
 Movie.defaultProps = {
-  movieGenres: 'Nice movie',
+  movie: {
+    img: 'default.png',
+    name: 'Movie name',
+    movieCreationDate: '1994-01-01',
+    movieGenres: 'Nice movie',
+  },
 };

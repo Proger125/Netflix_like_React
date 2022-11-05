@@ -1,16 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class SortByOption extends React.Component {
-  render() {
-    const sortByOption = this.props.sortByOption;
-    return (
-      <div className="sort-by-option">
-        <span>{sortByOption}</span>
-        <div className="arrow-down"></div>
-      </div>
-    );
-  }
+export default function SortByOption(props) {
+  const { sortByOption } = props;
+  return (
+    <div className="sort-by-option">
+      <span>{sortByOption}</span>
+      <div className="arrow-down" />
+    </div>
+  );
 }
 
 SortByOption.propTypes = {
