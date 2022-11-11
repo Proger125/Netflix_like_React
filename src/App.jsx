@@ -25,7 +25,7 @@ function App() {
     <ErrorBoundary FallbackComponent={customFallbackComponent}>
       <ModalContext.Provider value={setModalType}>
         <SelectedMovieContext.Provider value={setSelectedMovie}>
-          <Header />
+          <Header selectedMovie={selectedMovie} />
           <Content />
           <Footer />
           <Modal modalType={modalType} selectedMovie={selectedMovie} />

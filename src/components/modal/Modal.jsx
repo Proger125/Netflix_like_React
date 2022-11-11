@@ -1,13 +1,15 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import '../../static/css/modal.css';
 import AddOrEditMovieModalContent from './content/AddOrEditMovieModalContent';
 import DeleteMovieModalContent from './content/DeleteMovieModalContent';
 import ModalContext from './ModalContext';
+import SelectedMovieContext from '../main/movie/SelectedMovieContext';
 
 export default function Modal(props) {
   const { modalType, selectedMovie } = props;
-  const contextValue = React.useContext(ModalContext);
+  const contextValue = useContext(ModalContext);
+  const selectedMovieContextValue = useContext(SelectedMovieContext);
   const outsideRef = useRef();
   function useOnClickOutside(ref, handler) {
     useEffect(() => {
@@ -25,13 +27,18 @@ export default function Modal(props) {
       };
     }, [ref, handler]);
   }
-  useOnClickOutside(outsideRef, () => contextValue('none'));
+  useOnClickOutside(outsideRef, () => {
+    contextValue('none');
+  });
   return (
     <div className={modalType !== 'none' ? 'modal active' : 'modal'}>
       <div className="modal-content" ref={outsideRef}>
         <span
           className="modal-close-button"
-          onClick={() => contextValue('none')}
+          onClick={() => {
+            contextValue('none');
+            selectedMovieContextValue(null);
+          }}
           role="button"
           tabIndex={0}
           aria-hidden="true"

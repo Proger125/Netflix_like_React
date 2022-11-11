@@ -87,3 +87,84 @@ body {
 .searchbar-button:hover {
     cursor: pointer;
 }
+
+.back-to-search {
+    display: inline-block;
+    margin-left: 70%;
+    margin-top: 1%;
+}
+
+.back-to-search:hover {
+    cursor: pointer;
+}
+
+.movie-preview {
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 2%;
+    padding-bottom: 2%;
+    display: flex;
+    flex-direction: row;
+}
+
+.movie-preview-info {
+    margin-left: 5%;
+}
+
+.movie-preview-info-name {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 40px;
+    line-height: 48.76px;
+    letter-spacing: 1px;
+    color: #ffffff;
+}
+
+.movie-preview-info-rating {
+    display: inline-block;
+    margin-left: 25px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 24.38px;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    padding: 18px;
+    border-radius: 50px;
+}
+
+.movie-preview-info-genres {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17.07px;
+    color: #ffffff;
+}
+
+.movie-preview-info-year-and-duration {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 29.26px;
+    color: #f65261;
+}
+
+.movie-preview-info-year {
+    display: inline-block;
+}
+
+.mvoie-preview-info-duration {
+    display: inline-block;
+    margin-left: 50px;
+}
+
+.movie-preview-info-description {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 24.38px;
+    color: #ffffff;
+}
