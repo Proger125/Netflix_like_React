@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;900&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #555555;
+}
+
+.header {
+    background-color: #232323;
+}
+
+.logo {
+    width: 15%;
+    margin-top: 1%;
+    margin-left: 5%;
+    display: inline-block;
+}
+
+.logo-text {
+    font-size: 20px;
+    font-family: 'Montserrat', sans-serif;
+    color: #f65261;
+}
+
+.add-movie-button {
+    margin-left: 70%;
+    padding: 10px;
+    color: #f65261;
+    background: rgba(96, 96, 96, 0.68);
+    border-radius: 4px;
+    border: none;
+    opacity: 0.8;
+    display: inline-block;
+}
+
+.add-movie-button:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.searchbar {
+    margin-left: 8%;
+    margin-top: 5%;
+    padding-bottom: 10%;
+    width: 84%;
+    font-size: 40px;
+    line-height: 48.76px;
+    font-weight: 300;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 1px;
+    color: #ffffff;
+}
+
+.searchbar-action {
+    margin-top: 2%;
+}
+
+.searchbar-input {
+    display: inline-block;
+    border: none;
+    width: 75%;
+    height: 57px;
+    background: rgba(50, 50, 50, 0.8);
+    color: #ffffff;
+    font-size: 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+}
+
+.searchbar-button {
+    display: inline-block;
+    border: none;
+    margin-left: 1%;
+    width: 20%;
+    height: 57px;
+    background-color: #f65261;
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24.38px;
+}
+
+.searchbar-button:hover {
+    cursor: pointer;
+}
