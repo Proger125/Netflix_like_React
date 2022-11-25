@@ -14,7 +14,6 @@ export default function MovieOptions(props) {
           className="movie-options-close-button"
           onClick={() => {
             setOpened(false);
-            selectedMovieContextValue(null);
           }}
           role="button"
           tabIndex={0}
