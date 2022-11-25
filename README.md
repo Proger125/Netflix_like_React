@@ -1,1 +1,0 @@
-# React mentoring program repository
