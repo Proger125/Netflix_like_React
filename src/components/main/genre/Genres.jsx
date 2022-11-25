@@ -1,37 +1,39 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Genre from './Genre';
 
 const genres = [
-  'All',
-  'Drama',
-  'Romance',
-  'Animation',
-  'Adventure',
-  'Family',
-  'Comdedy',
-  'Fantasy',
-  'Science Fiction',
-  'Action',
+  {
+    genre: 'ALL',
+    isSelected: true,
+  },
+  {
+    genre: 'DOCUMENTARY',
+    isSelected: false,
+  },
+  {
+    genre: 'COMEDY',
+    isSelected: false,
+  },
+  {
+    genre: 'HORROR',
+    isSelected: false,
+  },
+  {
+    genre: 'CRIME',
+    isSelected: false,
+  },
 ];
 
-export default function Genres(props) {
-  const { moviesGenreFilter, setMoviesGenreFilter } = props;
+export default function Genres() {
   return (
     <div className="genres">
       {genres.map((genre) => (
         <Genre
-          key={genre}
-          genre={genre}
-          isSelected={genre === moviesGenreFilter}
-          setMoviesGenreFilter={setMoviesGenreFilter}
+          key={genre.genre}
+          genre={genre.genre}
+          isSelected={genre.isSelected}
         />
       ))}
     </div>
   );
 }
-
-Genres.propTypes = {
-  moviesGenreFilter: PropTypes.string.isRequired,
-  setMoviesGenreFilter: PropTypes.func.isRequired,
-};
