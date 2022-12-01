@@ -2,30 +2,21 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 const genres = [
-  {
-    genre: 'Documentary',
-  },
-  {
-    genre: 'Comedy',
-  },
-  {
-    genre: 'Horror',
-  },
-  {
-    genre: 'Crime',
-  },
+  'Drama',
+  'Romance',
+  'Animation',
+  'Adventure',
+  'Family',
+  'Comdedy',
+  'Fantasy',
+  'Science Fiction',
+  'Action',
 ];
 
 export default function AddOrEditMovieModalContent(props) {
   const [isTogglerUp, setIsTogglerUp] = useState(false);
 
   const { movie } = props;
-  let movieName = null;
-  let movieReleaseDate = null;
-  if (movie != null) {
-    movieName = movie.name;
-    movieReleaseDate = movie.movieCreationDate;
-  }
   return (
     <>
       <span className="modal-header">ADD MOVIE</span>
@@ -36,7 +27,7 @@ export default function AddOrEditMovieModalContent(props) {
             className="modal-form-group-input left-column"
             type="text"
             placeholder="Film Title"
-            value={movieName}
+            value={movie ? movie.title : null}
           />
         </div>
         <div className="modal-form-group with-left-margin">
@@ -44,7 +35,7 @@ export default function AddOrEditMovieModalContent(props) {
           <input
             className="modal-form-group-input right-column"
             type="date"
-            value={movieReleaseDate}
+            value={movie ? movie.release_date : null}
           />
         </div>
         <div className="modal-form-group">
@@ -61,6 +52,7 @@ export default function AddOrEditMovieModalContent(props) {
             className="modal-form-group-input right-column"
             type="text"
             placeholder="7.8"
+            value={movie ? movie.vote_average : null}
           />
         </div>
         <div className="modal-form-group">
@@ -88,8 +80,16 @@ export default function AddOrEditMovieModalContent(props) {
               <div className="gener-options">
                 {genres.map((genre) => (
                   <label className="genre-option-label" htmlFor={genre}>
-                    <input type="checkbox" id={genre} />
-                    {genre.genre}
+                    <input
+                      type="checkbox"
+                      id={genre}
+                      checked={
+                        movie.genres == null
+                          ? false
+                          : movie.genres.includes(genre)
+                      }
+                    />
+                    {genre}
                   </label>
                 ))}
               </div>
@@ -102,11 +102,15 @@ export default function AddOrEditMovieModalContent(props) {
             className="modal-form-group-input right-column"
             type="text"
             placeholder="minutes"
+            value={movie ? movie.runtime : null}
           />
         </div>
         <div className="modal-form-group">
           <span className="modal-form-group-header">OVERVIEW</span>
-          <textarea className="modal-form-overview" />
+          <textarea
+            className="modal-form-overview"
+            value={movie ? movie.overview : null}
+          />
         </div>
         <div className="modal-form-control-buttons">
           <button
@@ -129,18 +133,25 @@ export default function AddOrEditMovieModalContent(props) {
 
 AddOrEditMovieModalContent.propTypes = {
   movie: PropTypes.shape({
-    img: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    movieCreationDate: PropTypes.string.isRequired,
-    movieGenres: PropTypes.string,
+    id: PropTypes.number.isRequired,
+    budget: PropTypes.number.isRequired,
+    overview: PropTypes.string.isRequired,
+    revenue: PropTypes.number.isRequired,
+    runtime: PropTypes.number.isRequired,
+    tagline: PropTypes.string.isRequired,
+    vote_average: PropTypes.number.isRequired,
+    vote_count: PropTypes.number.isRequired,
+    poster_path: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    release_date: PropTypes.string.isRequired,
+    genres: PropTypes.array.isRequired,
   }),
 };
 
 AddOrEditMovieModalContent.defaultProps = {
   movie: {
-    img: 'default.png',
-    name: 'Movie name',
-    movieCreationDate: '1994-01-01',
-    movieGenres: 'Nice movie',
+    poster_path: 'default.png',
+    title: 'Movie name',
+    release_date: '1994-01-01',
   },
 };
