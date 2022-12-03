@@ -53,10 +53,13 @@ export const editMovie = createAsyncThunk('movies/editMovie', async (movie) => {
 
 export const deleteMovie = createAsyncThunk(
   'movies/deleteMovie',
-  async (movieId) => {
-    return axios
-      .delete(`http://localhost:4000/movies/${movieId}`)
-      .then((response) => response.data);
+  async (movie) => {
+    axios
+      .delete(`http://localhost:4000/movies/${movie.id}`)
+      .then((response) => {
+        console.log(response.status);
+      });
+    return movie.id;
   },
 );
 
@@ -110,6 +113,13 @@ const movieSlice = createSlice({
     });
     builder.addCase(addMovie.fulfilled, (state, action) => {
       state.movies.push(action.payload);
+    });
+    builder.addCase(deleteMovie.fulfilled, (state, action) => {
+      console.log(action.payload);
+      const existingMovieIndex = state.movies.findIndex(
+        (movie) => movie.id === action.payload,
+      );
+      state.movies.splice(existingMovieIndex, 1);
     });
     builder.addCase(setMovieFilter.fulfilled, (state, action) => {
       state.movieFilter = action.payload;

@@ -31,7 +31,9 @@ export default function AddOrEditMovieModalContent() {
           title: movie ? movie.title : '',
           release_date: movie ? movie.release_date : '1994-10-05',
           vote_average: movie ? movie.vote_average : 0,
-          poster_path: movie ? movie.poster_path : '',
+          poster_path: movie
+            ? movie.poster_path
+            : 'https://image.tmdb.org/t/p/w500/3kcEGnYBHDeqmdYf8ZRbKdfmlUy.jpg',
           genres: movie ? movie.genres : [],
           runtime: movie ? movie.runtime : '',
           overview: movie ? movie.overview : '',
@@ -39,7 +41,7 @@ export default function AddOrEditMovieModalContent() {
         validationSchema={movieValidationSchema}
         onSubmit={async (values) => {
           values.vote_average = Number(values.vote_average);
-          if (movie.id) {
+          if (movie) {
             values.id = movie.id;
             await dispatch(editMovie(values));
           } else {
