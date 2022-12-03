@@ -1,13 +1,18 @@
 import React from 'react';
-import '../../../static/css/content-style.css';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { setMovieFilter } from '../../../redux/movieSlice';
+import '../../../static/css/content-style.css';
 
 export default function Genre(props) {
-  const { genre, isSelected, setMoviesGenreFilter } = props;
+  const { genre } = props;
+  const movieFilter = useSelector((state) => state.movie.movieFilter);
+  const isSelected = genre === movieFilter;
+  const dispatch = useDispatch();
   return (
     <div
       className="genre"
-      onClick={() => setMoviesGenreFilter(genre)}
+      onClick={async () => dispatch(setMovieFilter(genre))}
       role="button"
       tabIndex={0}
       aria-hidden="true"
@@ -20,6 +25,4 @@ export default function Genre(props) {
 
 Genre.propTypes = {
   genre: PropTypes.string.isRequired,
-  isSelected: PropTypes.bool.isRequired,
-  setMoviesGenreFilter: PropTypes.func.isRequired,
 };

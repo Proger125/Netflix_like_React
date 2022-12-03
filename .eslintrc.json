@@ -21,6 +21,7 @@
         "lit-a11y/click-events-have-key-events": "off",
         "no-console": "off",
         "no-param-reassign": "off",
-        "react/forbid-prop-types": "off"
+        "react/forbid-prop-types": "off",
+        "camelcase": "off"
     }
 }

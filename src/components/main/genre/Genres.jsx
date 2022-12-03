@@ -1,37 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import Genre from './Genre';
 
-const genres = [
-  'All',
-  'Drama',
-  'Romance',
-  'Animation',
-  'Adventure',
-  'Family',
-  'Comdedy',
-  'Fantasy',
-  'Science Fiction',
-  'Action',
-];
+export default function Genres() {
+  const genres = useSelector((state) => state.movie.genres);
 
-export default function Genres(props) {
-  const { moviesGenreFilter, setMoviesGenreFilter } = props;
   return (
     <div className="genres">
       {genres.map((genre) => (
-        <Genre
-          key={genre}
-          genre={genre}
-          isSelected={genre === moviesGenreFilter}
-          setMoviesGenreFilter={setMoviesGenreFilter}
-        />
+        <Genre key={genre} genre={genre} />
       ))}
     </div>
   );
 }
-
-Genres.propTypes = {
-  moviesGenreFilter: PropTypes.string.isRequired,
-  setMoviesGenreFilter: PropTypes.func.isRequired,
-};

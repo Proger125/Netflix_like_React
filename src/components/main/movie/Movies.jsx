@@ -1,17 +1,14 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { fetchMovies } from '../../../redux/movieSlice';
 import Movie from './Movie';
 
-export default function Movies(props) {
-  const { setMovieNumber, moviesGenreFilter, sortField } = props;
+export default function Movies() {
   const movie = useSelector((state) => state.movie);
-  setMovieNumber(movie.movies.length);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchMovies(moviesGenreFilter, sortField));
-  }, [moviesGenreFilter, sortField]);
+    dispatch(fetchMovies(movie.movieFilter, movie.sortField));
+  }, [movie.movieFilter, movie.sortField]);
   return (
     <div className="movies">
       {movie.movies.length ? (
@@ -24,9 +21,3 @@ export default function Movies(props) {
     </div>
   );
 }
-
-Movies.propTypes = {
-  setMovieNumber: PropTypes.func.isRequired,
-  moviesGenreFilter: PropTypes.string.isRequired,
-  sortField: PropTypes.string.isRequired,
-};

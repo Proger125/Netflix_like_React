@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
-import ModalContext from '../../modal/ModalContext';
-import SelectedMovieContext from './SelectedMovieContext';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { setSelectedMovie } from '../../../redux/movieSlice';
+import { setModalType } from '../../../redux/modalSlice';
 
 export default function MovieOptions(props) {
   let options;
   const { movie, isOpened, setOpened } = props;
-  const modalContextValue = useContext(ModalContext);
-  const selectedMovieContextValue = useContext(SelectedMovieContext);
+  const dispatch = useDispatch();
   if (isOpened) {
     options = (
       <div className="movie-options-opened">
@@ -23,9 +23,9 @@ export default function MovieOptions(props) {
         </span>
         <span
           className="movie-options-option"
-          onClick={() => {
-            modalContextValue('editMovie');
-            selectedMovieContextValue(movie);
+          onClick={async () => {
+            await dispatch(setSelectedMovie(movie));
+            await dispatch(setModalType('editMovie'));
           }}
           role="button"
           tabIndex={0}
@@ -35,7 +35,10 @@ export default function MovieOptions(props) {
         </span>
         <span
           className="movie-options-option"
-          onClick={() => modalContextValue('deleteMovie')}
+          onClick={async () => {
+            await dispatch(setSelectedMovie(movie));
+            await dispatch(setModalType('deleteMovie'));
+          }}
           role="button"
           tabIndex={0}
           aria-hidden="true"

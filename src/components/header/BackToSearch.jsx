@@ -1,12 +1,13 @@
-import React, { useContext } from 'react';
-import SelectedMovieContext from '../main/movie/SelectedMovieContext';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { setSelectedMovie } from '../../redux/movieSlice';
 
 export default function BackToSearch() {
-  const selectedMovieContextValue = useContext(SelectedMovieContext);
+  const dispatch = useDispatch();
   return (
     <div
       className="back-to-search"
-      onClick={() => selectedMovieContextValue(null)}
+      onClick={async () => dispatch(setSelectedMovie(null))}
       role="button"
       tabIndex={0}
       aria-hidden="true"

@@ -1,18 +1,16 @@
 import React from 'react';
-import ModalContext from '../modal/ModalContext';
+import { useDispatch } from 'react-redux';
+import { setModalType } from '../../redux/modalSlice';
 
 export default function AddMovie() {
+  const dispatch = useDispatch();
   return (
-    <ModalContext.Consumer>
-      {(setModalType) => (
-        <button
-          className="add-movie-button"
-          onClick={() => setModalType('addMovie')}
-          type="button"
-        >
-          <b>+ ADD MOVIE</b>
-        </button>
-      )}
-    </ModalContext.Consumer>
+    <button
+      className="add-movie-button"
+      onClick={async () => dispatch(setModalType('addMovie'))}
+      type="button"
+    >
+      <b>+ ADD MOVIE</b>
+    </button>
   );
 }

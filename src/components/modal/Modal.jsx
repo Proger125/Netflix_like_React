@@ -1,15 +1,15 @@
-import React, { useRef, useEffect, useContext } from 'react';
+import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import '../../static/css/modal.css';
 import AddOrEditMovieModalContent from './content/AddOrEditMovieModalContent';
 import DeleteMovieModalContent from './content/DeleteMovieModalContent';
-import ModalContext from './ModalContext';
-import SelectedMovieContext from '../main/movie/SelectedMovieContext';
+import { setSelectedMovie } from '../../redux/movieSlice';
+import { setModalType } from '../../redux/modalSlice';
 
-export default function Modal(props) {
-  const { modalType, selectedMovie } = props;
-  const contextValue = useContext(ModalContext);
-  const selectedMovieContextValue = useContext(SelectedMovieContext);
+export default function Modal() {
+  const modalType = useSelector((state) => state.modal.type);
+  const dispatch = useDispatch();
   const outsideRef = useRef();
   function useOnClickOutside(ref, handler) {
     useEffect(() => {
@@ -27,17 +27,17 @@ export default function Modal(props) {
       };
     }, [ref, handler]);
   }
-  useOnClickOutside(outsideRef, () => {
-    contextValue('none');
+  useOnClickOutside(outsideRef, async () => {
+    await dispatch(setModalType('none'));
   });
   return (
     <div className={modalType !== 'none' ? 'modal active' : 'modal'}>
       <div className="modal-content" ref={outsideRef}>
         <span
           className="modal-close-button"
-          onClick={() => {
-            contextValue('none');
-            selectedMovieContextValue(null);
+          onClick={async () => {
+            await dispatch(setModalType('none'));
+            await dispatch(setSelectedMovie(null));
           }}
           role="button"
           tabIndex={0}
@@ -45,19 +45,19 @@ export default function Modal(props) {
         >
           &times;
         </span>
-        <ModalContent modalType={modalType} selectedMovie={selectedMovie} />
+        <ModalContent modalType={modalType} />
       </div>
     </div>
   );
 }
 
 function ModalContent(props) {
-  const { modalType, selectedMovie } = props;
+  const { modalType } = props;
   switch (modalType) {
     case 'addMovie':
       return <AddOrEditMovieModalContent />;
     case 'editMovie':
-      return <AddOrEditMovieModalContent movie={selectedMovie} />;
+      return <AddOrEditMovieModalContent />;
     case 'deleteMovie':
       return <DeleteMovieModalContent />;
     default:
@@ -65,42 +65,10 @@ function ModalContent(props) {
   }
 }
 
-Modal.propTypes = {
-  modalType: PropTypes.oneOf(['addMovie', 'editMovie', 'deleteMovie', 'none']),
-  selectedMovie: PropTypes.shape({
-    img: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    movieCreationDate: PropTypes.string.isRequired,
-    movieGenres: PropTypes.string,
-  }),
-};
-
 ModalContent.propTypes = {
   modalType: PropTypes.oneOf(['addMovie', 'editMovie', 'deleteMovie', 'none']),
-  selectedMovie: PropTypes.shape({
-    img: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    movieCreationDate: PropTypes.string.isRequired,
-    movieGenres: PropTypes.string,
-  }),
-};
-
-Modal.defaultProps = {
-  selectedMovie: {
-    img: 'default.png',
-    name: 'Movie name',
-    movieCreationDate: '1994-01-01',
-    movieGenres: 'Nice movie',
-  },
-  modalType: 'none',
 };
 
 ModalContent.defaultProps = {
-  selectedMovie: {
-    img: 'default.png',
-    name: 'Movie name',
-    movieCreationDate: '1994-01-01',
-    movieGenres: 'Nice movie',
-  },
   modalType: 'none',
 };
