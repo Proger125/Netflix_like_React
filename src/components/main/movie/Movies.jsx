@@ -4,16 +4,18 @@ import { fetchMovies } from '../../../redux/movieSlice';
 import Movie from './Movie';
 
 export default function Movies() {
-  const movie = useSelector((state) => state.movie);
+  const { movies, movieFilter, sortField } = useSelector(
+    (state) => state.movie,
+  );
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchMovies(movie.movieFilter, movie.sortField));
-  }, [movie.movieFilter, movie.sortField]);
+    dispatch(fetchMovies({ movieFilter, sortField }));
+  }, [movieFilter, sortField]);
   return (
     <div className="movies">
-      {movie.movies.length ? (
+      {movies.length ? (
         <>
-          {movie.movies.map((m) => (
+          {movies.map((m) => (
             <Movie movie={m} key={m.id} />
           ))}
         </>

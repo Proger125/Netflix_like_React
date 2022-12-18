@@ -27,13 +27,13 @@ const initialState = {
 
 export const fetchMovies = createAsyncThunk(
   'movies/fetchMovies',
-  async (moviesGenreFilter, sortField) => {
-    if (moviesGenreFilter === 'All') {
-      moviesGenreFilter = '';
+  async ({ movieFilter, sortField }) => {
+    if (movieFilter === 'All') {
+      movieFilter = '';
     }
     return axios
       .get('http://localhost:4000/movies', {
-        params: { filter: [moviesGenreFilter], sortBy: sortField },
+        params: { filter: movieFilter, sortBy: sortField, sortOrder: 'asc' },
       })
       .then((response) => response.data.data);
   },
@@ -63,24 +63,20 @@ export const deleteMovie = createAsyncThunk(
   },
 );
 
-export const setMovieFilter = createAsyncThunk('filter', async (filter) => {
-  return filter;
-});
-
-export const setSortField = createAsyncThunk('sortField', async (sortField) => {
-  return sortField;
-});
-
-export const setSelectedMovie = createAsyncThunk(
-  'selectedMovie',
-  async (selectedMovie) => {
-    return selectedMovie;
-  },
-);
-
 const movieSlice = createSlice({
   name: 'movie',
   initialState,
+  reducers: {
+    setMovieFilter(state, action) {
+      state.movieFilter = action.payload;
+    },
+    setSortField(state, action) {
+      state.sortField = action.payload;
+    },
+    setSelectedMovie(state, action) {
+      state.selectedMovie = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchMovies.fulfilled, (state, action) => {
       state.movies = action.payload;
@@ -121,16 +117,8 @@ const movieSlice = createSlice({
       );
       state.movies.splice(existingMovieIndex, 1);
     });
-    builder.addCase(setMovieFilter.fulfilled, (state, action) => {
-      state.movieFilter = action.payload;
-    });
-    builder.addCase(setSortField.fulfilled, (state, action) => {
-      state.sortField = action.payload;
-    });
-    builder.addCase(setSelectedMovie.fulfilled, (state, action) => {
-      state.selectedMovie = action.payload;
-    });
   },
 });
-
+export const { setMovieFilter, setSortField, setSelectedMovie } =
+  movieSlice.actions;
 export default movieSlice.reducer;

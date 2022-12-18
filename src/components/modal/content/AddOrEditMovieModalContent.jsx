@@ -88,7 +88,7 @@ export default function AddOrEditMovieModalContent() {
                 name="movie_url"
                 onChange={handleChange}
                 placeholder="https://"
-                value=""
+                value={values.poster_path}
               />
             </div>
             <div className="modal-form-group with-left-margin">
