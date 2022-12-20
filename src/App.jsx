@@ -1,17 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import './App.css';
+import { Provider } from 'react-redux';
 import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
 import Content from './components/main/Content';
 import Modal from './components/modal/Modal';
-import ModalContext from './components/modal/ModalContext';
-import SelectedMovieContext from './components/main/movie/SelectedMovieContext';
+import store from './redux/store';
 
 function App() {
-  const [modalType, setModalType] = useState('none');
-  const [selectedMovie, setSelectedMovie] = useState(null);
-
   const customFallbackComponent = ({ error, resetErrorBoundary }) => (
     <div>
       <h1>An error occurred: {error.message}</h1>
@@ -23,14 +20,12 @@ function App() {
 
   return (
     <ErrorBoundary FallbackComponent={customFallbackComponent}>
-      <ModalContext.Provider value={setModalType}>
-        <SelectedMovieContext.Provider value={setSelectedMovie}>
-          <Header selectedMovie={selectedMovie} />
-          <Content />
-          <Footer />
-          <Modal modalType={modalType} selectedMovie={selectedMovie} />
-        </SelectedMovieContext.Provider>
-      </ModalContext.Provider>
+      <Provider store={store}>
+        <Header />
+        <Content />
+        <Footer />
+        <Modal />
+      </Provider>
     </ErrorBoundary>
   );
 }

@@ -1,16 +1,17 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import MovieOptions from './MovieOptions';
-import SelectedMovieContext from './SelectedMovieContext';
+import { setSelectedMovie } from '../../../redux/movieSlice';
 
 export default function Movie(props) {
   const [isOpened, setIsOpened] = useState(false);
-  const selectedMovieContextValue = useContext(SelectedMovieContext);
+  const dispatch = useDispatch();
   const { movie } = props;
   return (
     <div className="movie" onMouseLeave={() => setIsOpened(false)}>
       <div
-        onClick={() => selectedMovieContextValue(movie)}
+        onClick={async () => dispatch(setSelectedMovie(movie))}
         role="button"
         tabIndex={0}
         aria-hidden="true"
@@ -32,13 +33,13 @@ export default function Movie(props) {
 Movie.propTypes = {
   movie: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    budget: PropTypes.number.isRequired,
+    budget: PropTypes.number,
     overview: PropTypes.string.isRequired,
-    revenue: PropTypes.number.isRequired,
+    revenue: PropTypes.number,
     runtime: PropTypes.number.isRequired,
-    tagline: PropTypes.string.isRequired,
+    tagline: PropTypes.string,
     vote_average: PropTypes.number.isRequired,
-    vote_count: PropTypes.number.isRequired,
+    vote_count: PropTypes.number,
     poster_path: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     release_date: PropTypes.string.isRequired,

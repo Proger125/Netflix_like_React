@@ -1,15 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
-export default function MovieNumber(props) {
-  const { movieNumber } = props;
+export default function MovieNumber() {
+  const movieNumber = useSelector((state) => state.movie.movieNumber);
   return (
     <span className="movie-number">
       <b>{movieNumber}</b> movies found
     </span>
   );
 }
-
-MovieNumber.propTypes = {
-  movieNumber: PropTypes.number.isRequired,
-};

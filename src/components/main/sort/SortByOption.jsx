@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSortField } from '../../../redux/movieSlice';
 
-const sortByOptions = ['release_date', 'title', 'runtime', 'budget'];
-
-export default function SortByOption(props) {
+export default function SortByOption() {
   const [isTogglerUp, setIsTogglerUp] = useState(false);
-
-  const { sortByOption, setSortField } = props;
+  const sortField = useSelector((state) => state.movie.sortField);
+  const sortByOptions = useSelector((state) => state.movie.sortByOptions);
+  const dispatch = useDispatch();
   return (
     <div
       className="sort-by-option"
@@ -15,13 +15,13 @@ export default function SortByOption(props) {
       tabIndex={0}
       aria-hidden="true"
     >
-      <span>{sortByOption.replace('_', ' ')}</span>
+      <span>{sortField.toUpperCase().replace('_', ' ')}</span>
       <div className="arrow-down" />
       {isTogglerUp && (
         <div className="sort-by-options">
           {sortByOptions.map((option) => (
             <span
-              onClick={() => setSortField(option)}
+              onClick={async () => dispatch(setSortField(option))}
               role="button"
               tabIndex={0}
               aria-hidden="true"
@@ -35,8 +35,3 @@ export default function SortByOption(props) {
     </div>
   );
 }
-
-SortByOption.propTypes = {
-  sortByOption: PropTypes.string.isRequired,
-  setSortField: PropTypes.func.isRequired,
-};

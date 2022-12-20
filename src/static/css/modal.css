@@ -68,7 +68,9 @@
 
 .modal-form-group {
     display: inline-block;
+    position: relative;
     margin-top: 3%;
+    min-height: 80px;
 }
 
 .with-left-margin {
@@ -95,6 +97,16 @@
     color: #ffffff;
     border: none;
     position: relative;
+}
+
+.modal-form-group-error {
+    position: absolute;
+    top: 100%;
+    font-size: 12px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.89px;
+    color: #f65261;
 }
 
 .modal-form-overview {
