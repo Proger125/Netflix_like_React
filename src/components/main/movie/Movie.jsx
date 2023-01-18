@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useSubmit, useLoaderData, Form } from 'react-router-dom';
+
 import MovieOptions from './MovieOptions';
-import { setSelectedMovie } from '../../../redux/movieSlice';
 
 export default function Movie(props) {
   const [isOpened, setIsOpened] = useState(false);
-  const dispatch = useDispatch();
+  const { genreParam, sortBy } = useLoaderData();
+  const submit = useSubmit();
   const { movie } = props;
   return (
     <div className="movie" onMouseLeave={() => setIsOpened(false)}>
-      <div
-        onClick={async () => dispatch(setSelectedMovie(movie))}
+      <Form
+        onClick={(event) => submit(event.currentTarget)}
         role="button"
         tabIndex={0}
         aria-hidden="true"
@@ -19,13 +20,16 @@ export default function Movie(props) {
         <div className="movie-icon">
           <img src={movie.poster_path} alt="" />
         </div>
-        <span className="movie-name">{movie.title}</span>
+        <span className="movie-name">{movie.title.substring(0, 30)}</span>
         <span className="movie-creation-date">
           {movie.release_date.substring(0, 4)}
         </span>
         <br />
         <span className="movie-genres">{movie.genres.join(', ')}</span>
-      </div>
+        <input type="hidden" name="genre" value={genreParam} />
+        <input type="hidden" name="sortBy" value={sortBy} />
+        <input type="hidden" name="movieId" value={movie.id} />
+      </Form>
       <MovieOptions isOpened={isOpened} setOpened={setIsOpened} movie={movie} />
     </div>
   );

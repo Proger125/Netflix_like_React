@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchMovies } from '../../../redux/movieSlice';
+import { useLoaderData } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import Movie from './Movie';
+import { setMovieNumber } from '../../../redux/movieSlice';
 
 export default function Movies() {
-  const { movies, movieFilter, sortField } = useSelector(
-    (state) => state.movie,
-  );
+  const { movies } = useLoaderData();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchMovies({ movieFilter, sortField }));
-  }, [movieFilter, sortField]);
+    dispatch(setMovieNumber(movies.length));
+  }, [movies]);
   return (
     <div className="movies">
       {movies.length ? (

@@ -3,9 +3,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const initialState = {
-  movies: [],
-  sortField: 'release_date',
-  movieFilter: 'All',
   movieNumber: 0,
   genres: [
     'All',
@@ -14,30 +11,15 @@ const initialState = {
     'Animation',
     'Adventure',
     'Family',
-    'Comdedy',
+    'Comedy',
     'Fantasy',
     'Science Fiction',
     'Action',
   ],
   sortByOptions: ['release_date', 'title', 'runtime', 'budget'],
-  selectedMovie: null,
   modalType: 'none',
   error: '',
 };
-
-export const fetchMovies = createAsyncThunk(
-  'movies/fetchMovies',
-  async ({ movieFilter, sortField }) => {
-    if (movieFilter === 'All') {
-      movieFilter = '';
-    }
-    return axios
-      .get('http://localhost:4000/movies', {
-        params: { filter: movieFilter, sortBy: sortField, sortOrder: 'asc' },
-      })
-      .then((response) => response.data.data);
-  },
-);
 
 export const addMovie = createAsyncThunk('movies/addMovie', async (movie) => {
   return axios
@@ -67,26 +49,11 @@ const movieSlice = createSlice({
   name: 'movie',
   initialState,
   reducers: {
-    setMovieFilter(state, action) {
-      state.movieFilter = action.payload;
-    },
-    setSortField(state, action) {
-      state.sortField = action.payload;
-    },
-    setSelectedMovie(state, action) {
-      state.selectedMovie = action.payload;
+    setMovieNumber(state, action) {
+      state.movieNumber = action.payload;
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchMovies.fulfilled, (state, action) => {
-      state.movies = action.payload;
-      state.movieNumber = state.movies.length;
-      state.error = '';
-    });
-    builder.addCase(fetchMovies.rejected, (state, action) => {
-      state.movies = [];
-      state.error = action.error.message;
-    });
     builder.addCase(editMovie.fulfilled, (state, action) => {
       const {
         id,
@@ -107,9 +74,6 @@ const movieSlice = createSlice({
         existingMovie.overview = overview;
       }
     });
-    builder.addCase(addMovie.fulfilled, (state, action) => {
-      state.movies.push(action.payload);
-    });
     builder.addCase(deleteMovie.fulfilled, (state, action) => {
       console.log(action.payload);
       const existingMovieIndex = state.movies.findIndex(
@@ -119,6 +83,5 @@ const movieSlice = createSlice({
     });
   },
 });
-export const { setMovieFilter, setSortField, setSelectedMovie } =
-  movieSlice.actions;
+export const { setMovieNumber } = movieSlice.actions;
 export default movieSlice.reducer;

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { setSortField } from '../../../redux/movieSlice';
+import { useSubmit, useLoaderData, Form } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export default function SortByOption() {
   const [isTogglerUp, setIsTogglerUp] = useState(false);
-  const sortField = useSelector((state) => state.movie.sortField);
+  const { sortBy, genreParam, movie } = useLoaderData();
   const sortByOptions = useSelector((state) => state.movie.sortByOptions);
-  const dispatch = useDispatch();
+  const submit = useSubmit();
   return (
     <div
       className="sort-by-option"
@@ -15,20 +15,29 @@ export default function SortByOption() {
       tabIndex={0}
       aria-hidden="true"
     >
-      <span>{sortField.toUpperCase().replace('_', ' ')}</span>
+      <span>{sortBy.toUpperCase().replace('_', ' ')}</span>
       <div className="arrow-down" />
       {isTogglerUp && (
         <div className="sort-by-options">
           {sortByOptions.map((option) => (
-            <span
-              onClick={async () => dispatch(setSortField(option))}
-              role="button"
-              tabIndex={0}
-              aria-hidden="true"
-              key={option}
-            >
-              {option.toUpperCase().replace('_', ' ')}
-            </span>
+            <Form key={option}>
+              <span
+                onClick={(event) => {
+                  submit(event.currentTarget.parentElement);
+                }}
+                role="button"
+                tabIndex={0}
+                aria-hidden="true"
+                className="sort-by-option-item"
+              >
+                <input type="hidden" name="sortBy" value={option} />
+                <input type="hidden" name="genre" value={genreParam} />
+                {movie && (
+                  <input type="hidden" name="movieId" value={movie.id} />
+                )}
+                {option.toUpperCase().replace('_', ' ')}
+              </span>
+            </Form>
           ))}
         </div>
       )}

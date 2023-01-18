@@ -2,11 +2,8 @@ import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
-import {
-  addMovie,
-  editMovie,
-  setSelectedMovie,
-} from '../../../redux/movieSlice';
+import { useLoaderData } from 'react-router-dom';
+import { addMovie, editMovie } from '../../../redux/movieSlice';
 import { setModalType } from '../../../redux/modalSlice';
 
 const movieValidationSchema = Yup.object().shape({
@@ -20,7 +17,7 @@ const movieValidationSchema = Yup.object().shape({
 
 export default function AddOrEditMovieModalContent() {
   const [isTogglerUp, setIsTogglerUp] = useState(false);
-  const movie = useSelector((state) => state.movie.selectedMovie);
+  const { movie } = useLoaderData();
   const genres = useSelector((state) => state.movie.genres);
   const dispatch = useDispatch();
   return (
@@ -48,7 +45,6 @@ export default function AddOrEditMovieModalContent() {
             await dispatch(addMovie(values));
           }
           await dispatch(setModalType('none'));
-          await dispatch(setSelectedMovie(null));
         }}
       >
         {({ values, handleChange, isSubmitting }) => (
@@ -189,7 +185,6 @@ export default function AddOrEditMovieModalContent() {
                 type="button"
                 onClick={async () => {
                   await dispatch(setModalType('none'));
-                  await dispatch(setSelectedMovie(null));
                 }}
               >
                 RESET
