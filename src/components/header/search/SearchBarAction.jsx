@@ -1,14 +1,11 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
-import {
-  useNavigate,
-  useLoaderData,
-  createSearchParams,
-} from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-export default function SearchBarAction() {
+export default function SearchBarAction(props) {
+  const { onSubmit } = props;
   const { searchQuery, genreParam, sortBy } = useLoaderData();
-  const navigate = useNavigate();
   return (
     <Formik
       initialValues={{
@@ -16,10 +13,7 @@ export default function SearchBarAction() {
       }}
       onSubmit={(values) => {
         const genre = genreParam;
-        navigate({
-          pathname: `/search/${values.search}`,
-          search: `?${createSearchParams({ sortBy, genre })}`,
-        });
+        onSubmit(values.search, sortBy, genre);
       }}
     >
       {({ values, handleChange }) => (
@@ -40,3 +34,7 @@ export default function SearchBarAction() {
     </Formik>
   );
 }
+
+SearchBarAction.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};

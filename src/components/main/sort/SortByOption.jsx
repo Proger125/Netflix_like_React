@@ -15,7 +15,9 @@ export default function SortByOption() {
       tabIndex={0}
       aria-hidden="true"
     >
-      <span>{sortBy.toUpperCase().replace('_', ' ')}</span>
+      <span className="selected-sort-by-option">
+        {sortBy.toUpperCase().replace('_', ' ')}
+      </span>
       <div className="arrow-down" />
       {isTogglerUp && (
         <div className="sort-by-options">

@@ -21,7 +21,7 @@ export default function Genre(props) {
       <input type="hidden" name="genre" value={genre} />
       <input type="hidden" name="sortBy" value={sortBy} />
       {movie && <input type="hidden" name="movieId" value={movie.id} />}
-      <span>{genre.toUpperCase()}</span>
+      <span className={genre}>{genre.toUpperCase()}</span>
       {isSelected && <div className="is-selected-block" />}
     </Form>
   );

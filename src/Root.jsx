@@ -7,5 +7,5 @@ export default function Root() {
     navigate({
       pathname: '/search',
     });
-  });
+  }, []);
 }
