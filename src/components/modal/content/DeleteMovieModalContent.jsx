@@ -1,12 +1,13 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteMovie, setSelectedMovie } from '../../../redux/movieSlice';
+import { useLoaderData } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { deleteMovie } from '../../../redux/movieSlice';
 import { setModalType } from '../../../redux/modalSlice';
 
 export default function DeleteMovieModalContent() {
   const dispatch = useDispatch();
-  const movie = useSelector((state) => state.movie.selectedMovie);
+  const { movie } = useLoaderData();
   return (
     <>
       <span className="modal-header">DELETE MOVIE</span>
@@ -25,7 +26,6 @@ export default function DeleteMovieModalContent() {
         }}
         onSubmit={async (values) => {
           await dispatch(setModalType('none'));
-          await dispatch(setSelectedMovie(null));
           await dispatch(deleteMovie(values));
         }}
       >

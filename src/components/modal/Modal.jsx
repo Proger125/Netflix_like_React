@@ -1,15 +1,17 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { useSubmit, useLoaderData, Form } from 'react-router-dom';
 import '../../static/css/modal.css';
 import AddOrEditMovieModalContent from './content/AddOrEditMovieModalContent';
 import DeleteMovieModalContent from './content/DeleteMovieModalContent';
-import { setSelectedMovie } from '../../redux/movieSlice';
 import { setModalType } from '../../redux/modalSlice';
 
 export default function Modal() {
   const modalType = useSelector((state) => state.modal.type);
   const dispatch = useDispatch();
+  const submit = useSubmit();
+  const { genreParam, sortBy } = useLoaderData();
   const outsideRef = useRef();
   function useOnClickOutside(ref, handler) {
     useEffect(() => {
@@ -32,12 +34,12 @@ export default function Modal() {
   });
   return (
     <div className={modalType !== 'none' ? 'modal active' : 'modal'}>
-      <div className="modal-content" ref={outsideRef}>
+      <Form className="modal-content" ref={outsideRef}>
         <span
           className="modal-close-button"
-          onClick={async () => {
+          onClick={async (event) => {
             await dispatch(setModalType('none'));
-            await dispatch(setSelectedMovie(null));
+            submit(event.currentTarget.parentElement);
           }}
           role="button"
           tabIndex={0}
@@ -46,7 +48,9 @@ export default function Modal() {
           &times;
         </span>
         <ModalContent modalType={modalType} />
-      </div>
+        <input type="hidden" name="genre" value={genreParam} />
+        <input type="hidden" name="sortBy" value={sortBy} />
+      </Form>
     </div>
   );
 }

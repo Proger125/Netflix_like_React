@@ -1,18 +1,20 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { setSelectedMovie } from '../../redux/movieSlice';
+import { useSubmit, useLoaderData, Form } from 'react-router-dom';
 
 export default function BackToSearch() {
-  const dispatch = useDispatch();
+  const { genreParam, sortBy } = useLoaderData();
+  const submit = useSubmit();
   return (
-    <div
+    <Form
       className="back-to-search"
-      onClick={async () => dispatch(setSelectedMovie(null))}
-      role="button"
+      onClick={(event) => submit(event.currentTarget)}
+      role="search"
       tabIndex={0}
       aria-hidden="true"
     >
+      <input type="hidden" name="genre" value={genreParam} />
+      <input type="hidden" name="sortBy" value={sortBy} />
       <img src="img/search.png" alt="Search icon" />
-    </div>
+    </Form>
   );
 }

@@ -1,22 +1,18 @@
 /* eslint camelcase: 0 */
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   type: 'none',
 };
 
-export const setModalType = createAsyncThunk('modalType', async (modalType) => {
-  return modalType;
-});
-
 const modalSlice = createSlice({
   name: 'modal',
   initialState,
-  extraReducers: (builder) => {
-    builder.addCase(setModalType.fulfilled, (state, action) => {
+  reducers: {
+    setModalType(state, action) {
       state.type = action.payload;
-    });
+    },
   },
 });
-
+export const { setModalType } = modalSlice.actions;
 export default modalSlice.reducer;

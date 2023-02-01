@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useLoaderData } from 'react-router-dom';
 import AddMovie from './AddMovie';
 import Logo from './Logo';
 import SearchBar from './search/SearchBar';
@@ -16,12 +16,12 @@ export default function Header() {
 }
 
 function HeaderContent() {
-  const selectedMovie = useSelector((state) => state.movie.selectedMovie);
-  if (selectedMovie) {
+  const { movie } = useLoaderData();
+  if (movie) {
     return (
       <>
         <BackToSearch />
-        <MoviePreview />
+        <MoviePreview movie={movie} />
       </>
     );
   }

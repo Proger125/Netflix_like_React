@@ -1,12 +1,10 @@
 import React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import './App.css';
-import { Provider } from 'react-redux';
 import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
 import Content from './components/main/Content';
 import Modal from './components/modal/Modal';
-import store from './redux/store';
 
 function App() {
   const customFallbackComponent = ({ error, resetErrorBoundary }) => (
@@ -20,12 +18,10 @@ function App() {
 
   return (
     <ErrorBoundary FallbackComponent={customFallbackComponent}>
-      <Provider store={store}>
-        <Header />
-        <Content />
-        <Footer />
-        <Modal />
-      </Provider>
+      <Header />
+      <Content />
+      <Footer />
+      <Modal />
     </ErrorBoundary>
   );
 }
