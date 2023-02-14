@@ -53,35 +53,6 @@ const movieSlice = createSlice({
       state.movieNumber = action.payload;
     },
   },
-  extraReducers: (builder) => {
-    builder.addCase(editMovie.fulfilled, (state, action) => {
-      const {
-        id,
-        title,
-        release_date,
-        poster_path,
-        genres,
-        runtime,
-        overview,
-      } = action.payload;
-      const existingMovie = state.movies.find((movie) => movie.id === id);
-      if (existingMovie) {
-        existingMovie.title = title;
-        existingMovie.release_date = release_date;
-        existingMovie.poster_path = poster_path;
-        existingMovie.genres = genres;
-        existingMovie.runtime = runtime;
-        existingMovie.overview = overview;
-      }
-    });
-    builder.addCase(deleteMovie.fulfilled, (state, action) => {
-      console.log(action.payload);
-      const existingMovieIndex = state.movies.findIndex(
-        (movie) => movie.id === action.payload,
-      );
-      state.movies.splice(existingMovieIndex, 1);
-    });
-  },
 });
 export const { setMovieNumber } = movieSlice.actions;
 export default movieSlice.reducer;

@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Search Bar actions tests snapshot test 1`] = `
+<form
+  action="#"
+  className="searchbar-action"
+  onReset={[Function]}
+  onSubmit={[Function]}
+>
+  <input
+    className="searchbar-input"
+    name="search"
+    onBlur={[Function]}
+    onChange={[Function]}
+    placeholder="What do you want to watch?"
+    type="text"
+    value=""
+  />
+  <button
+    className="searchbar-button"
+    type="submit"
+  >
+    Search
+  </button>
+</form>
+`;
