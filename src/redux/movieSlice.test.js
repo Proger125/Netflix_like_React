@@ -8,6 +8,8 @@ import reducer, {
   setMovieNumber,
 } from './movieSlice';
 
+jest.mock('axios');
+
 describe('Movie slice tests', () => {
   test('should set movie number', () => {
     const previousState = { movieNumber: 0 };
@@ -20,9 +22,7 @@ describe('Movie slice tests', () => {
     const movieToAdd = {
       title: 'Test Movie',
     };
-    const postSpy = jest
-      .spyOn(axios, 'post')
-      .mockResolvedValueOnce({ data: { id: 1 } });
+    axios.post.mockResolvedValueOnce({ data: { id: 1 } });
     const store = configureStore({
       reducer(state, action) {
         switch (action.type) {
@@ -34,7 +34,10 @@ describe('Movie slice tests', () => {
       },
     });
     await store.dispatch(addMovie(movieToAdd));
-    expect(postSpy).toBeCalledWith('http://localhost:4000/movies', movieToAdd);
+    expect(axios.post).toBeCalledWith(
+      'http://localhost:4000/movies',
+      movieToAdd,
+    );
     const state = store.getState();
     expect(state).toEqual({ id: 1 });
   });
@@ -44,9 +47,9 @@ describe('Movie slice tests', () => {
       id: 1,
       title: 'Test Movie',
     };
-    const putSpy = jest
-      .spyOn(axios, 'put')
-      .mockResolvedValueOnce({ data: { id: 1, title: 'Test Movie' } });
+    axios.put.mockResolvedValueOnce({
+      data: { id: 1, title: 'Test Movie' },
+    });
     const store = configureStore({
       reducer(state, action) {
         switch (action.type) {
@@ -58,7 +61,10 @@ describe('Movie slice tests', () => {
       },
     });
     await store.dispatch(editMovie(movieToEdit));
-    expect(putSpy).toBeCalledWith('http://localhost:4000/movies', movieToEdit);
+    expect(axios.put).toBeCalledWith(
+      'http://localhost:4000/movies',
+      movieToEdit,
+    );
     const state = store.getState();
     expect(state).toEqual(movieToEdit);
   });
@@ -66,9 +72,9 @@ describe('Movie slice tests', () => {
     const movieToDelete = {
       id: 1,
     };
-    const deleteSpy = jest
-      .spyOn(axios, 'delete')
-      .mockResolvedValueOnce({ data: { message: 'deleted' } });
+    axios.delete.mockResolvedValueOnce({
+      data: { message: 'deleted' },
+    });
     const store = configureStore({
       reducer(state, action) {
         switch (action.type) {
@@ -80,7 +86,7 @@ describe('Movie slice tests', () => {
       },
     });
     await store.dispatch(deleteMovie(movieToDelete));
-    expect(deleteSpy).toBeCalledWith('http://localhost:4000/movies/1');
+    expect(axios.delete).toBeCalledWith('http://localhost:4000/movies/1');
     const state = store.getState();
     expect(state).toEqual(1);
   });

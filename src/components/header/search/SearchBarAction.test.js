@@ -4,6 +4,7 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import renderer from 'react-test-renderer';
 import userEvent from '@testing-library/user-event';
 import SearchBarAction from './SearchBarAction';
 
@@ -37,6 +38,11 @@ describe('Search Bar actions tests', () => {
   test('renders search bar actions component', () => {
     render(<RouterProvider router={router} />);
     expect(screen.getByText('Search')).toBeInTheDocument();
+  });
+
+  test('snapshot test', () => {
+    const domTree = renderer.create(<RouterProvider router={router} />);
+    expect(domTree).toMatchSnapshot();
   });
 
   test('renders search bar actions component and submit search', async () => {
