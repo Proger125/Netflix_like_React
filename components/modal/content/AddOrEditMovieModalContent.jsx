@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
-import { addMovie, editMovie } from '../../../redux/movieSlice';
+import { addMovie, editMovie, setMovie } from '../../../redux/movieSlice';
 import { setModalType } from '../../../redux/modalSlice';
 
 const movieValidationSchema = Yup.object().shape({
@@ -19,6 +20,8 @@ export default function AddOrEditMovieModalContent({ movie }) {
   const [isTogglerUp, setIsTogglerUp] = useState(false);
   const genres = useSelector((state) => state.movie.genres);
   const dispatch = useDispatch();
+  const router = useRouter();
+  const { genre, sortBy, search } = router.query;
   return (
     <>
       <span className="modal-header">ADD MOVIE</span>
@@ -39,15 +42,18 @@ export default function AddOrEditMovieModalContent({ movie }) {
           values.vote_average = Number(values.vote_average);
           if (movie) {
             values.id = movie.id;
-            await dispatch(editMovie(values));
+            dispatch(editMovie(values));
           } else {
-            await dispatch(addMovie(values));
+            dispatch(addMovie(values));
           }
-          await dispatch(setModalType('none'));
+          dispatch(setModalType('none'));
+          router.push(
+            `/search?genre=${genre}&sortBy=${sortBy}&movieId=${movie.id}&search=${search}`,
+          );
         }}
       >
         {({ values, handleChange, isSubmitting }) => (
-          <Form className="modal-form">
+          <Form className="modal-form" method="POST">
             <div className="modal-form-group">
               <span className="modal-form-group-header">TITLE</span>
               <Field
@@ -123,25 +129,19 @@ export default function AddOrEditMovieModalContent({ movie }) {
                 </div>
                 {isTogglerUp && (
                   <div className="gener-options">
-                    {genres.map((genre) => (
-                      <label
-                        className="genre-option-label"
-                        htmlFor={genre}
-                        key={genre}
-                      >
+                    {genres.map((g) => (
+                      <label className="genre-option-label" htmlFor={g} key={g}>
                         <Field
                           type="checkbox"
-                          id={genre}
+                          id={g}
                           name="genres"
-                          value={genre}
+                          value={g}
                           onChange={handleChange}
                           checked={
-                            values.genres
-                              ? values.genres.includes(genre)
-                              : false
+                            values.genres ? values.genres.includes(g) : false
                           }
                         />
-                        {genre}
+                        {g}
                       </label>
                     ))}
                   </div>
@@ -183,7 +183,8 @@ export default function AddOrEditMovieModalContent({ movie }) {
                 className="modal-form-control-button reset-button"
                 type="button"
                 onClick={async () => {
-                  await dispatch(setModalType('none'));
+                  dispatch(setModalType('none'));
+                  dispatch(setMovie(null));
                 }}
               >
                 RESET

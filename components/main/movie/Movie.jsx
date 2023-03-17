@@ -28,9 +28,6 @@ export default function Movie(props) {
         </span>
         <br />
         <span className="movie-genres">{movie.genres.join(', ')}</span>
-        <input type="hidden" name="genre" value={genre} />
-        <input type="hidden" name="sortBy" value={sortBy} />
-        <input type="hidden" name="movieId" value={movie.id} />
       </form>
       <MovieOptions isOpened={isOpened} setOpened={setIsOpened} movie={movie} />
     </div>

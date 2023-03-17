@@ -1,14 +1,12 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { useRouter } from 'next/router';
 import { setModalType } from '../../../redux/modalSlice';
+import { setMovie } from '../../../redux/movieSlice';
 
 export default function MovieOptions(props) {
   let options;
-  const router = useRouter();
   const { movie, isOpened, setOpened } = props;
   const dispatch = useDispatch();
-  const { genre, sortBy } = router.query;
   if (isOpened) {
     options = (
       <form className="movie-options-opened">
@@ -25,9 +23,9 @@ export default function MovieOptions(props) {
         </span>
         <span
           className="movie-options-option"
-          onClick={async (event) => {
-            event.currentTarget.parentElement.submit();
-            await dispatch(setModalType('editMovie'));
+          onClick={async () => {
+            dispatch(setModalType('editMovie'));
+            dispatch(setMovie(movie));
           }}
           role="button"
           tabIndex={0}
@@ -37,9 +35,9 @@ export default function MovieOptions(props) {
         </span>
         <span
           className="movie-options-option"
-          onClick={async (event) => {
-            event.currentTarget.parentElement.submit();
-            await dispatch(setModalType('deleteMovie'));
+          onClick={async () => {
+            dispatch(setModalType('deleteMovie'));
+            dispatch(setMovie(movie));
           }}
           role="button"
           tabIndex={0}
@@ -47,9 +45,6 @@ export default function MovieOptions(props) {
         >
           Delete
         </span>
-        <input type="hidden" name="genre" value={genre} />
-        <input type="hidden" name="sortBy" value={sortBy} />
-        <input type="hidden" name="movieId" value={movie.id} />
       </form>
     );
   } else {

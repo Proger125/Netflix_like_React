@@ -1,50 +1,35 @@
 import React from 'react';
-import { Formik, Form } from 'formik';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { deleteMovie } from '../../../redux/movieSlice';
+import { useRouter } from 'next/router';
+import { deleteMovie, setMovie } from '../../../redux/movieSlice';
 import { setModalType } from '../../../redux/modalSlice';
 
 export default function DeleteMovieModalContent({ movie }) {
   const dispatch = useDispatch();
+  const router = useRouter();
   return (
     <>
       <span className="modal-header">DELETE MOVIE</span>
-      <Formik
-        initialValues={{
-          id: movie ? movie.id : '',
-          title: movie ? movie.title : '',
-          release_date: movie ? movie.release_date : '1994-10-05',
-          vote_average: movie ? movie.vote_average : 0,
-          poster_path: movie
-            ? movie.poster_path
-            : 'https://image.tmdb.org/t/p/w500/3kcEGnYBHDeqmdYf8ZRbKdfmlUy.jpg',
-          genres: movie ? movie.genres : [],
-          runtime: movie ? movie.runtime : '',
-          overview: movie ? movie.overview : '',
-        }}
-        onSubmit={async (values) => {
-          await dispatch(setModalType('none'));
-          await dispatch(deleteMovie(values));
-        }}
-      >
-        {({ isSubmitting }) => (
-          <Form className="modal-form">
-            <span className="modal-text">
-              Are you sure you want to delete this movie
-            </span>
-            <div className="modal-form-control-buttons">
-              <button
-                className="modal-form-control-button submit-button"
-                type="submit"
-                disabled={isSubmitting}
-              >
-                SUBMIT
-              </button>
-            </div>
-          </Form>
-        )}
-      </Formik>
+      <div className="modal-form">
+        <span className="modal-text">
+          Are you sure you want to delete this movie
+        </span>
+        <div className="modal-form-control-buttons">
+          <button
+            className="modal-form-control-button submit-button"
+            type="button"
+            onClick={() => {
+              dispatch(setModalType('none'));
+              dispatch(setMovie(null));
+              dispatch(deleteMovie(movie));
+              router.reload();
+            }}
+          >
+            SUBMIT
+          </button>
+        </div>
+      </div>
     </>
   );
 }
